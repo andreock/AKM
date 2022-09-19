@@ -59,9 +59,13 @@
                         okButtonText: "OK"
                     });
                 }else{
-                    await java.lang.Runtime.getRuntime().exec("su");
-                    await java.lang.Runtime.getRuntime().exec('echo userspace > /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_governor');
-                    java.lang.Runtime.getRuntime().exec('echo ' + res.text + " " + '> /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_max_freq');
+                    var process = java.lang.Runtime.getRuntime().exec('su');
+                    let outputStream = new java.io.DataOutputStream(process.getOutputStream());
+                    outputStream.writeBytes('echo ' + res.text + " " + '> /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_max_freq');
+                    outputStream.flush();
+                    outputStream.writeBytes("exit\n");
+                    outputStream.flush();
+                    process.waitFor();
                     alert({
                         title: "Success",
                         message: "Max frequency set successfully!",
@@ -83,9 +87,13 @@
                         okButtonText: "OK"
                     });
                 }else{
-                    await java.lang.Runtime.getRuntime().exec("su");
-                    await java.lang.Runtime.getRuntime().exec('echo userspace > /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_governor');
-                    java.lang.Runtime.getRuntime().exec('echo ' + res.text + " " + '> /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_min_freq');
+                    var process = java.lang.Runtime.getRuntime().exec('su');
+                    let outputStream = new java.io.DataOutputStream(process.getOutputStream());
+                    outputStream.writeBytes('echo ' + res.text + " " + '> /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_min_freq');
+                    outputStream.flush();
+                    outputStream.writeBytes("exit\n");
+                    outputStream.flush();
+                    process.waitFor();
                     alert({
                         title: "Success",
                         message: "Min frequency set successfully!",
@@ -106,24 +114,27 @@
     }
 
     async function set_gov(id_cpu){
-        await java.lang.Runtime.getRuntime().exec("su");
-        let governors = get_gov(id_cpu);
-        //console.log('echo ' + governors[governor] + ' /sys/devices/system/cpu/cpu' + id_cpu + '/cpufreq/scaling_available_governors');
-        var process = java.lang.Runtime.getRuntime().exec('echo ' + governors[governor] + ' /sys/devices/system/cpu/cpu' + id_cpu + '/cpufreq/scaling_governor');
-        var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
-        var line = new java.lang.String();
-        while((line=reader.readLine())!=null)o+=line;
+        var process = java.lang.Runtime.getRuntime().exec('su');
+        let outputStream = new java.io.DataOutputStream(process.getOutputStream());
+        outputStream.writeBytes('echo ' + '"' + governors[governor] + '"' + ' /sys/devices/system/cpu/cpu' + id_cpu + '/cpufreq/scaling_governor');
+        outputStream.flush();
+        outputStream.writeBytes("exit\n");
+        outputStream.flush();
+        process.waitFor();
+        alert("Governor update successfully");
     }   
 
-    async function set_all_gov(){
-        await java.lang.Runtime.getRuntime().exec("su");
+    function set_all_gov(){
         let governors = get_gov(0);
-        console.log('echo ' + governors[allgov] + ' /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor');
-        var process = java.lang.Runtime.getRuntime().exec('echo ' + governors[allgov] + ' /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor');
-        var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
-        var line = new java.lang.String();
+        console.log('echo ' + '"' + governors[allgov] + '"' + ' > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor');
+        var process = java.lang.Runtime.getRuntime().exec('su');
+        let outputStream = new java.io.DataOutputStream(process.getOutputStream());
+        outputStream.writeBytes('echo ' + '"' + governors[allgov] + '"' + ' /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor');
+        outputStream.flush();
+        outputStream.writeBytes("exit\n");
+        outputStream.flush();
+        process.waitFor();
         alert("Governor update successfully");
-        while((line=reader.readLine())!=null)o+=line;
     }   
 
     function init(){
