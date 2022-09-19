@@ -1,7 +1,7 @@
 <page>
     <actionBar title="AndreKernelManager" />
     <flexboxLayout flexDirection="column">
-        <textView editable="{false}" height="10">
+        <textView editable="{false}">
             <formattedString>
                 <span text="Welcome to AndreKernelManager!\n"/>
                 <span text="Max CPU frequncy - governor:"/>
@@ -87,11 +87,10 @@
         frequency = [];
         uptime = get_uptime();
         kernel = get_kernel();
-        //console.log(get_uptime());
         for(var i = 0; i < 8; i++){
             frequency = frequency.concat("CPU " + i + ": " + get_cpu_freq(i) / 1000000 + " GHz - " + get_cpu_gov(i));
         }
-        setTimeout(init, 500);
+        setTimeout(init, 1000);
     }
 
     init();

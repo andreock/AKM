@@ -1,18 +1,14 @@
-<tabView selectedIndex="{selectedIndex}" on:selectedIndexChange="{indexChange}">
+<tabView>
     <tabViewItem title="Summary">
       <Home />
     </tabViewItem>
   
     <tabViewItem title="CPU">
-      <label text="Content for Tab 2" />
+      <CPU />
     </tabViewItem>
   </tabView>
 
 <script>
-    import Home from './components/Home.svelte'
-    let selectedIndex;
-    function indexChange(event) {
-        let newIndex = event.value
-        console.log('Current tab index: ' + newIndex)
-    }
+    import Home from './components/Home.svelte';
+    import CPU from './components/CPU.svelte'; 
 </script>
