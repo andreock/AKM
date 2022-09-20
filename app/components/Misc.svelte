@@ -10,13 +10,35 @@
             <label text="Enable 600hz touch sampling(only oplus)" class="fsync"/>
             <switch bind:checked="{touchrate}" on:checkedChange={touchrate_switch}/>
         </flexboxLayout>
+
+        <flexboxLayout alignItems="flex-start">
+            <label text="Adrenoboost" class="fsync"/>
+            <switch bind:checked="{adrenoboost}" on:checkedChange={touchrate_switch}/>
+        </flexboxLayout>
         
     </flexboxLayout>
 </page>
 
 <script>
-    let fsync = false, touchrate = false;
     import { onMount } from 'svelte';
+
+    let fsync = false, touchrate = false, adrenoboost = false;
+
+    function get_adrenoboost(){
+        var o = new java.lang.String();
+        var process = java.lang.Runtime.getRuntime().exec('su');
+        let outputStream = new java.io.DataOutputStream(process.getOutputStream());
+        outputStream.writeBytes("cat /sys/class/devfreq/1c00000.qcom,kgsl-3d0/adrenoboost\n");
+        outputStream.flush();
+        outputStream.writeBytes("exit\n");
+        outputStream.flush();
+        process.waitFor();
+        var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
+        var line = new java.lang.String();
+        while((line=reader.readLine())!=null)o+=line;
+        alert(o)
+        return o;
+    }
 
     function get_oplus_touchrate(){
         var o = new java.lang.String();
@@ -72,7 +94,12 @@
             process.waitFor();
         }
     }
-    onMount(() => touchrate = Boolean(get_oplus_touchrate()[0]));
+
+    onMount(() => {
+        touchrate = Boolean(parseInt(get_oplus_touchrate()[0]));
+        console.log(get_adrenoboost())
+    }
+    );
     
 </script>
 
