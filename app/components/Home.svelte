@@ -37,48 +37,13 @@
    
 </page>
 
-<script>
+<script lang="ts">
     import { Template } from 'svelte-native/components';
     import { DeviceInfo } from "nativescript-dna-deviceinfo";
+    import { get_cpu_freq, get_cpu_gov, get_uptime, get_kernel } from '../lib/home';
 
-    let frequency = [], batterylevel = 0, ram_available = 0, totalMemory = 0, uptime = "", kernel = "";
+    let frequency: Array<String> = [], batterylevel = 0, ram_available = 0, totalMemory = 0, uptime: java.lang.String, kernel: java.lang.String;
     java.lang.Runtime.getRuntime().exec("su");
-
-    function get_cpu_freq(id){
-        var o = new java.lang.String();
-        var process = java.lang.Runtime.getRuntime().exec('cat /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_cur_freq');
-        var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
-        var line = new java.lang.String();
-        while((line=reader.readLine())!=null)o+=line;
-        return o;
-    }
-
-    function get_cpu_gov(id){
-        var o = new java.lang.String();
-        var process = java.lang.Runtime.getRuntime().exec('cat /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_governor');
-        var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
-        var line = new java.lang.String();
-        while((line=reader.readLine())!=null)o+=line;
-        return o;
-    }
-
-    function get_uptime(){
-        var o = new java.lang.String();
-        var process = java.lang.Runtime.getRuntime().exec('uptime');
-        var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
-        var line = new java.lang.String();
-        while((line=reader.readLine())!=null)o+=line;
-        return o;
-    }
-
-    function get_kernel(){
-        var o = new java.lang.String();
-        var process = java.lang.Runtime.getRuntime().exec('uname -a');
-        var reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()));
-        var line = new java.lang.String();
-        while((line=reader.readLine())!=null)o+=line;
-        return o;  
-    }
 
     async function init(){
         batterylevel = DeviceInfo.batteryLevel();
@@ -88,7 +53,7 @@
         uptime = get_uptime();
         kernel = get_kernel();
         for(var i = 0; i < 8; i++){
-            frequency = frequency.concat("CPU " + i + ": " + get_cpu_freq(i) / 1000000 + " GHz - " + get_cpu_gov(i));
+            frequency = frequency.concat("CPU " + i + ": " + parseFloat(get_cpu_freq(i) as unknown as string) / 1000000 + " GHz - " + get_cpu_gov(i));
         }
         setTimeout(init, 1000);
     }

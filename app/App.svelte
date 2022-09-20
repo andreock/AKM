@@ -1,4 +1,5 @@
 <tabView>
+  
     <tabViewItem title="Summary">
       <Home />
     </tabViewItem>
@@ -23,6 +24,10 @@
       <Misc />
     </tabViewItem>
 
+    <tabViewItem title="I/O scheduler">
+      <Scheduler />
+    </tabViewItem>
+
   </tabView>
 
 <script>
@@ -32,4 +37,5 @@
     import Battery from './components/Battery.svelte'; 
     import Display from './components/Display.svelte';
     import Misc from './components/Misc.svelte';
+    import Scheduler from './components/IO_Scheduler.svelte';
 </script>
