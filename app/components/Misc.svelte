@@ -92,7 +92,7 @@
         if(fsync){
             var process = java.lang.Runtime.getRuntime().exec('su');
             let outputStream = new java.io.DataOutputStream(process.getOutputStream());
-            outputStream.writeBytes("echo 1 /sys/kernel/fast_charge/force_fast_charge\n");
+            outputStream.writeBytes("echo 1 > /sys/kernel/fast_charge/force_fast_charge\n");
             outputStream.flush();
             outputStream.writeBytes("exit\n");
             outputStream.flush();
@@ -100,7 +100,7 @@
         }else{
             var process = java.lang.Runtime.getRuntime().exec('su');
             let outputStream = new java.io.DataOutputStream(process.getOutputStream());
-            outputStream.writeBytes("echo 0 /sys/kernel/fast_charge/force_fast_charge\n");
+            outputStream.writeBytes("echo 0 > /sys/kernel/fast_charge/force_fast_charge\n");
             outputStream.flush();
             outputStream.writeBytes("exit\n");
             outputStream.flush();
