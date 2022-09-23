@@ -3,7 +3,8 @@
         <formattedString>
             <span text="Battery level: {DeviceInfo.batteryLevel()} % ({capacity} mAh)\n" />
             <span text="Voltage: {voltage} V\n" />
-            <span text="Current: -{ma_now} ma" />
+            <span text="Current: -{ma_now} ma\n" />
+            <span text="Is charging? {charge}" />
         </formattedString>
     </textView>
 </page>
@@ -12,7 +13,7 @@
     import { DeviceInfo } from "nativescript-dna-deviceinfo";
     import { Utils } from '@nativescript/core'
 
-    let voltage = 0, capacity = 0, ma_now = 0;
+    let voltage = 0, capacity = 0, ma_now = 0, charge = false;
 
     function get_voltage(){
         const bm = Utils.android.getApplicationContext().registerReceiver(null, new android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED));
@@ -38,8 +39,14 @@
         setTimeout(get_ma_now, 1000);
     }
 
+    function isCharging(){
+        charge = DeviceInfo.isBatteryCharging();
+        setTimeout(isCharging, 5000);
+    }
+
     get_voltage();
     get_ma_now();
     get_mah();
+    isCharging();
 
 </script>   

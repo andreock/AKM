@@ -40,7 +40,7 @@ export function set_max_freq(min: string , max: string, id: number){
             }else{
                 var process = java.lang.Runtime.getRuntime().exec('su');
                 let outputStream = new java.io.DataOutputStream(process.getOutputStream());
-                outputStream.writeBytes('echo ' + res.text + " " + '> /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_max_freq');
+                outputStream.writeBytes(`echo ${res.text} > /sys/devices/system/cpu/cpu${id}/cpufreq/scaling_max_freq'\n`);
                 outputStream.flush();
                 outputStream.writeBytes("exit\n");
                 outputStream.flush();
@@ -68,7 +68,7 @@ export function set_min_freq(min: string , max: string, id: number){
             }else{
                 var process = java.lang.Runtime.getRuntime().exec('su');
                 let outputStream = new java.io.DataOutputStream(process.getOutputStream());
-                outputStream.writeBytes('echo ' + res.text + " " + '> /sys/devices/system/cpu/cpu' + id + '/cpufreq/scaling_min_freq');
+                outputStream.writeBytes(`echo ${res.text} > /sys/devices/system/cpu/cpu${id}/cpufreq/scaling_min_freq'\n`);
                 outputStream.flush();
                 outputStream.writeBytes("exit\n");
                 outputStream.flush();
@@ -96,7 +96,7 @@ export async function set_gov(id_cpu: number, governor: number){
     let governors = get_gov(id_cpu);
     var process = java.lang.Runtime.getRuntime().exec('su');
     let outputStream = new java.io.DataOutputStream(process.getOutputStream());
-    outputStream.writeBytes('echo ' + '"' + governors[governor] + '"' + ' /sys/devices/system/cpu/cpu' + id_cpu + '/cpufreq/scaling_governor');
+    outputStream.writeBytes(`echo ${governors[governor]} > /sys/devices/system/cpu/cpu${id_cpu}/cpufreq/scaling_governor'\n`);
     outputStream.flush();
     outputStream.writeBytes("exit\n");
     outputStream.flush();
@@ -106,10 +106,9 @@ export async function set_gov(id_cpu: number, governor: number){
 
 export function set_all_gov(allgov: number){
     let governors = get_gov(0);
-    console.log('echo ' + '"' + governors[allgov] + '"' + ' > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor');
     var process = java.lang.Runtime.getRuntime().exec('su');
     let outputStream = new java.io.DataOutputStream(process.getOutputStream());
-    outputStream.writeBytes('echo ' + '"' + governors[allgov] + '"' + ' /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor');
+    outputStream.writeBytes(`echo ${governors[allgov]} > /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'\n`);
     outputStream.flush();
     outputStream.writeBytes("exit\n");
     outputStream.flush();

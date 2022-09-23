@@ -1,7 +1,7 @@
 // Get 600hz mode for Oplus model
 export function get_oplus_touchrate() {
   var o = new java.lang.String();
-  var process = java.lang.Runtime.getRuntime().exec("su");
+  var process = java.lang.Runtime.getRuntime().exec("su");  // SU is not necessary
   let outputStream = new java.io.DataOutputStream(process.getOutputStream());
   outputStream.writeBytes("cat /proc/touchpanel/game_switch_enable\n");
   outputStream.flush();

@@ -4,7 +4,7 @@ import { prompt, alert } from '@nativescript/core/ui/dialogs';
 
 export function get_adrenoboost(){
     var o = new java.lang.String();
-    var process = java.lang.Runtime.getRuntime().exec('su');
+    var process = java.lang.Runtime.getRuntime().exec("su"); // SU is not necessary
     let outputStream = new java.io.DataOutputStream(process.getOutputStream());
     // Maybe change this path?
     outputStream.writeBytes("cat /sys/class/devfreq/3d00000.qcom,kgsl-3d0/adrenoboost\n");
@@ -35,7 +35,7 @@ export function set_adrenoboost(adrenoboost: boolean){
 
 export function get_load(){
     var o = new java.lang.String();
-    var process = java.lang.Runtime.getRuntime().exec('su');
+    var process = java.lang.Runtime.getRuntime().exec("su");  // SU is not necessary
     let outputStream = new java.io.DataOutputStream(process.getOutputStream());
     // Maybe change this path?
     outputStream.writeBytes("cat /sys/class/devfreq/3d00000.qcom,kgsl-3d0/gpu_load\n");
@@ -51,7 +51,7 @@ export function get_load(){
 
 export function get_gov(){
     var o = new java.lang.String();
-    var process = java.lang.Runtime.getRuntime().exec('su');
+    var process = java.lang.Runtime.getRuntime().exec("su");  // SU is not necessary
     let outputStream = new java.io.DataOutputStream(process.getOutputStream());
     // Maybe change this path?
     outputStream.writeBytes("cat /sys/class/devfreq/3d00000.qcom,kgsl-3d0/governor\n");
@@ -67,7 +67,7 @@ export function get_gov(){
 
 export function get_all_gov(){
     var o = new java.lang.String();
-    var process = java.lang.Runtime.getRuntime().exec('su');
+    var process = java.lang.Runtime.getRuntime().exec("su");  // SU is not necessary
     let outputStream = new java.io.DataOutputStream(process.getOutputStream());
     // Maybe change this path?
     outputStream.writeBytes("cat /sys/class/devfreq/3d00000.qcom,kgsl-3d0/available_governors\n");
@@ -101,7 +101,7 @@ export function set_gov(governor: number){
 
 export function get_min_freq(){
     var o = new java.lang.String();
-    var process = java.lang.Runtime.getRuntime().exec('su');
+    var process = java.lang.Runtime.getRuntime().exec("su");  // SU is not necessary
     let outputStream = new java.io.DataOutputStream(process.getOutputStream());
     // Maybe change this path?
     outputStream.writeBytes("cat /sys/class/devfreq/3d00000.qcom,kgsl-3d0/min_freq\n");
@@ -117,7 +117,7 @@ export function get_min_freq(){
 
 export function get_max_freq(){
     var o = new java.lang.String();
-    var process = java.lang.Runtime.getRuntime().exec('su');
+    var process = java.lang.Runtime.getRuntime().exec("su");  // SU is not necessary
     let outputStream = new java.io.DataOutputStream(process.getOutputStream());
     // Maybe change this path?
     outputStream.writeBytes("cat /sys/class/devfreq/3d00000.qcom,kgsl-3d0/max_freq\n");
@@ -144,7 +144,7 @@ export function set_min_freq(min: number, max: number){
             }else{
                 var process = java.lang.Runtime.getRuntime().exec('su');
                 let outputStream = new java.io.DataOutputStream(process.getOutputStream());
-                outputStream.writeBytes('echo ' + res.text + " " + '> /sys/class/devfreq/3d00000.qcom,kgsl-3d0/min_freq\n');
+                outputStream.writeBytes(`echo ${res.text} > /sys/class/devfreq/3d00000.qcom,kgsl-3d0/min_freq\n`);
                 outputStream.flush();
                 outputStream.writeBytes("exit\n");
                 outputStream.flush();
@@ -172,7 +172,7 @@ export function set_max_freq(min: number, max: number){
             }else{
                 var process = java.lang.Runtime.getRuntime().exec('su');
                 let outputStream = new java.io.DataOutputStream(process.getOutputStream());
-                outputStream.writeBytes('echo ' + res.text + " " + '> /sys/class/devfreq/3d00000.qcom,kgsl-3d0/max_freq\n');
+                outputStream.writeBytes(`echo ${res.text} > /sys/class/devfreq/3d00000.qcom,kgsl-3d0/max_freq\n`);
                 outputStream.flush();
                 outputStream.writeBytes("exit\n");
                 outputStream.flush();
@@ -189,7 +189,7 @@ export function set_max_freq(min: number, max: number){
 
 export function get_cur_freq(){
     var o = new java.lang.String();
-    var process = java.lang.Runtime.getRuntime().exec('su');
+    var process = java.lang.Runtime.getRuntime().exec("su");  // SU is not necessary
     let outputStream = new java.io.DataOutputStream(process.getOutputStream());
     // Maybe change this path?
     outputStream.writeBytes("cat /sys/class/devfreq/3d00000.qcom,kgsl-3d0/cur_freq\n");
